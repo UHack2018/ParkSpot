@@ -31,6 +31,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.IOException;
 import java.util.List;
 
+
+
+
 public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
         OnMapReadyCallback,
@@ -151,8 +154,10 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
 
     }
 
+
     private void enableMyLocation() {
 
+        /** this comment should be removed
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -164,7 +169,10 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
             mMap.setMyLocationEnabled(true);
         }
 
+         **/
+
     }
+
 
     @Override
     public boolean onMyLocationButtonClick() {

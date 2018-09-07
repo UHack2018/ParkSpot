@@ -174,7 +174,7 @@ public class RegisterActivity extends Activity {
                         JSONObject user = jObj.getJSONObject("user");
                         String name = user.getString("name");
                         String email = user.getString("email");
-                        String aadhaar = user.getString("aadhar");
+                        String aadhaar = user.getString("aadhaar");
                         String customertype = user.getString("customertype");
                         String created_at = user
                                 .getString("created_at");
@@ -223,7 +223,7 @@ public class RegisterActivity extends Activity {
                 params.put("name", name);
                 params.put("email", email);
                 params.put("password", password);
-                params.put("aadhar",aadhaar);
+                params.put("aadhaar",aadhaar);
                 params.put("customertype",customertype);
 
                 return params;
