@@ -1,0 +1,11 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item name="ic_menu_logout" type="drawable">@drawable/ic_logout_black_48dp</item>
+    <item name="ic_menu_add" type="drawable">@drawable/ic_map_marker_plus_black_48dp</item>
+    <item name="ic_menu_remove" type="drawable">@drawable/ic_map_marker_off_black_48dp</item>
+    <item name="ic_menu_tools" type="drawable">@drawable/ic_cogs_black_36dp</item>
+    <item name="ic_menu_share" type="drawable">@drawable/ic_menu_share</item>
+    <item name="ic_menu_send" type="drawable">@drawable/ic_menu_send</item>
+
+</resources>
