@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -29,6 +30,13 @@ import android.view.MenuItem;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
@@ -48,6 +56,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static in.co.shahilislam.parkit.LoginActivity.e;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnMyLocationButtonClickListener,
@@ -80,11 +91,14 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private List<ListPlace> listItems;
+    public static String q;
     // Constants
     public static final String TAG = MapsActivity.class.getSimpleName();
     private static final int PERMISSIONS_REQUEST_FINE_LOCATION = 111;
     private static final int PLACE_PICKER_REQUEST = 1;
 
+
+   // private static String URL  ="http://vga.ramstertech.com/freebieslearning/login.php";
 
     // handling logout
     private SQLiteHandler db;
@@ -295,6 +309,7 @@ public class MainActivity extends AppCompatActivity
                 String placeID = place.getId();
                 String placeName = (String) place.getName();
                 String placeAddress = (String) place.getAddress();
+                q=placeAddress;
 
                 recyclerView = (RecyclerView)findViewById(R.id.places_list_recycler_view);
                 recyclerView.setHasFixedSize(true);
@@ -310,6 +325,7 @@ public class MainActivity extends AppCompatActivity
                 // }
                 adapter = new MyAdapter(listItems,this);
                 recyclerView.setAdapter(adapter);
+                senddata();
 
             }
         }
@@ -452,6 +468,40 @@ public class MainActivity extends AppCompatActivity
     private void showMissingPermissionError() {
         PermissionUtils.PermissionDeniedDialog
                 .newInstance(true).show(getSupportFragmentManager(), "dialog");
+    }
+
+
+    private void senddata(){
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,AppConfig.URL_LOC , new Response.Listener<String>() {
+
+            @Override
+                public void onResponse(String response){
+                    Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
+                }
+
+                },
+                new Response.ErrorListener(){
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+
+                    }
+                })
+        {
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("loc",q);
+                params.put("email",e);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+        requestQueue.add(stringRequest);
+
+
     }
 
 

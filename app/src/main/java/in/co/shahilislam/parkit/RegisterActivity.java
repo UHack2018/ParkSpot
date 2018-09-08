@@ -162,8 +162,11 @@ public class RegisterActivity extends Activity {
 
             @Override
             public void onResponse(String response) {
+
+
                 Log.d(TAG, "Register Response: " + response.toString());
                 hideDialog();
+
 
                 try {
                     JSONObject jObj = new JSONObject(response);
@@ -205,6 +208,9 @@ public class RegisterActivity extends Activity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+
+                Toast.makeText(RegisterActivity.this, response, Toast.LENGTH_LONG).show();
 
             }
         }, new Response.ErrorListener() {

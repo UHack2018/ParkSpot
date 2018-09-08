@@ -1,5 +1,6 @@
 package in.co.shahilislam.parkit;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -35,6 +36,8 @@ public class LoginActivity extends Activity {
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
+    public static  String e;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,13 +74,17 @@ public class LoginActivity extends Activity {
 
             public void onClick(View view) {
                 String email = inputEmail.getText().toString().trim();
+                e = email;
+
                 String password = inputPassword.getText().toString().trim();
 
                 // Check for empty data in the form
                 if (!email.isEmpty() && !password.isEmpty()) {
                     // login user
                     checkLogin(email, password);
-                } else {
+
+                }
+                else {
                     // Prompt user to enter credentials
                     Toast.makeText(getApplicationContext(),
                             "Please enter the credentials!", Toast.LENGTH_LONG)
@@ -117,6 +124,23 @@ public class LoginActivity extends Activity {
 
             @Override
             public void onResponse(String response) {
+
+
+                pDialog.hide();
+              //  showSnackbar(response);
+
+                if(response.contains("Data Matched")) {
+
+                    session.setLogin(true);
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+
+                  //  startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+                }
+
+                /**
                 Log.d(TAG, "Login Response: " + response.toString());
                 hideDialog();
 
@@ -125,7 +149,7 @@ public class LoginActivity extends Activity {
                     boolean error = jObj.getBoolean("error");
 
                     // Check for error node in json
-                    if (!error) {
+                    if (response.contains("Data Matched")) {
                         // user successfully logged in
                         // Create login session
                         session.setLogin(true);
@@ -163,17 +187,26 @@ public class LoginActivity extends Activity {
                     Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
 
+                **/
+
+
+
+                Toast.makeText(LoginActivity.this, response, Toast.LENGTH_LONG).show();
+
             }
+
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+
                 Log.e(TAG, "Login Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
                 hideDialog();
             }
-        }) {
+        })
+        {
 
             @Override
             protected Map<String, String> getParams() {
