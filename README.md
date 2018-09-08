@@ -15,3 +15,9 @@ Solution
 The idea is to develop a easy and fast way to get a parking place for your vehicle and keep the roads clean and keep your vehicle safe. There will be two different users in this app. One who will mark their parking spaces available for parking and the other one who will get notified about all the free parking spaces available near them. The people who will mark their spaces for parking can be the govt or general public. Govt parking as well as private parking spaces all can be made visible and people passing nearby can use the app and get Enroute to the nearest free parking space. General public also can use this app, if they have free parking place or their parking place remains empty during office hours, using our app they can make use of their parking space and even earn some money beyond it they will contribute in keeping the roads clean n traffic low.
 And the person who want to park their vehicles in a safe place can use the app and get information about all the free parking spaces near by will all the details like parking charge per hour, safety protocols, distance. And accordingly the driver can choose the best parking space and park their vehicle.
 
+Contact:
+
+I have removed my project files.If you want to know more about this project, contact:- contact@shahilislam.co.in
+or visit -
+shahilislam.co.in
+
