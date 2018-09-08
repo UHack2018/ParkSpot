@@ -100,6 +100,8 @@ public class LoginActivity extends Activity {
 
     }
 
+
+
     /**
      * function to verify login details in mysql db
      * */
@@ -153,7 +155,9 @@ public class LoginActivity extends Activity {
                         Toast.makeText(getApplicationContext(),
                                 errorMsg, Toast.LENGTH_LONG).show();
                     }
-                } catch (JSONException e) {
+                }
+
+                catch (JSONException e) {
                     // JSON error
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();

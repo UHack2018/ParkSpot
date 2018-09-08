@@ -13,6 +13,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -26,9 +29,12 @@ import android.view.MenuItem;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,6 +45,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -68,6 +75,15 @@ public class MainActivity extends AppCompatActivity
     private PlaceAutocompleteFragment placeAutocompleteFragment;
 
     Marker marker;
+
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private List<ListPlace> listItems;
+    // Constants
+    public static final String TAG = MapsActivity.class.getSimpleName();
+    private static final int PERMISSIONS_REQUEST_FINE_LOCATION = 111;
+    private static final int PLACE_PICKER_REQUEST = 1;
 
 
     // handling logout
@@ -230,7 +246,29 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.add_spot) {
 
-        } else if (id == R.id.remove_spot) {
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, getString(R.string.need_location_permission_message), Toast.LENGTH_LONG).show();
+                //return;
+            }
+            try
+            {
+
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                Intent i = builder.build(this);
+                startActivityForResult(i, PLACE_PICKER_REQUEST);
+            } catch (GooglePlayServicesRepairableException e) {
+                Log.e(TAG, String.format("GooglePlayServices Not Available [%s]", e.getMessage()));
+            } catch (GooglePlayServicesNotAvailableException e) {
+                Log.e(TAG, String.format("GooglePlayServices Not Available [%s]", e.getMessage()));
+            } catch (Exception e) {
+                Log.e(TAG, String.format("PlacePicker Exception: %s", e.getMessage()));
+            }
+
+
+        } else if (id == R.id.my_spot) {
+            Intent intent = new Intent(MainActivity.this, MyspotsActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_manage) {
 
@@ -243,6 +281,38 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PLACE_PICKER_REQUEST){
+            if (resultCode == RESULT_OK  && data != null){
+                Place place = PlacePicker.getPlace(MainActivity.this, data);
+
+
+                String placeID = place.getId();
+                String placeName = (String) place.getName();
+                String placeAddress = (String) place.getAddress();
+
+                recyclerView = (RecyclerView)findViewById(R.id.places_list_recycler_view);
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+                listItems = new ArrayList<ListPlace>();
+                //  for (int i = 0; i < placeID.length(); i++) {
+                // String[] f = fetch[i].split(";");
+                ListPlace listItem = new ListPlace();
+                listItem.setName( placeName );
+                listItem.setAddress( placeAddress );
+                listItems.add(listItem);
+                // }
+                adapter = new MyAdapter(listItems,this);
+                recyclerView.setAdapter(adapter);
+
+            }
+        }
     }
 
 

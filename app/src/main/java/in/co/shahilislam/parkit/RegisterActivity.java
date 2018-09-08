@@ -113,6 +113,7 @@ public class RegisterActivity extends Activity {
         // Register Button Click event
         btnRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+
                 String name = inputFullName.getText().toString().trim();
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
@@ -120,7 +121,9 @@ public class RegisterActivity extends Activity {
                 String customertype = customer.getText().toString().trim();
 
                 if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty() && !aadhaar.isEmpty()) {
+
                     registerUser(name, email, password, aadhaar, customertype );
+
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Please enter your details!", Toast.LENGTH_LONG)
@@ -133,8 +136,7 @@ public class RegisterActivity extends Activity {
         btnLinkToLogin.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),
-                        LoginActivity.class);
+                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(i);
                 finish();
             }
@@ -148,6 +150,7 @@ public class RegisterActivity extends Activity {
      * */
     private void registerUser(final String name, final String email,
                               final String password, final String aadhaar, final String customertype) {
+
         // Tag used to cancel the request
         String tag_string_req = "req_register";
 
@@ -169,9 +172,8 @@ public class RegisterActivity extends Activity {
                     if (!error) {
                         // User successfully stored in MySQL
                         // Now store the user in sqlite
-                        String uid = jObj.getString("uid");
-
                         JSONObject user = jObj.getJSONObject("user");
+                        String uid = jObj.getString("uid");
                         String name = user.getString("name");
                         String email = user.getString("email");
                         String aadhaar = user.getString("aadhaar");
