@@ -19,5 +19,5 @@ Contact:
 
 I have removed my project files.If you want to know more about this project, contact:- contact@shahilislam.co.in
 or visit -
-shahilislam.co.in
+http://shahilislam.co.in
 
